@@ -47,7 +47,7 @@ local function findRemote(name)
 end
 
 -- Cari remote
-local GiveCoinsRemote = findRemote("GiveCoins")
+local GiveCoinsRemote = findRemote("AddCoins")
 
 if not GiveCoinsRemote then
     warn("[X] GAGAL: RemoteEvent 'GiveCoins' tidak ditemukan!")
