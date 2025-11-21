@@ -1,0 +1,293 @@
+-- Fish Count - RemoteEvent GiveCoins Tester
+-- Untuk testing keamanan game Anda
+
+local Players = game:GetService("Players")
+local ReplicatedStorage = game:GetService("ReplicatedStorage")
+local TweenService = game:GetService("TweenService")
+
+local player = Players.LocalPlayer
+
+-- Buat ScreenGui
+local ScreenGui = Instance.new("ScreenGui")
+ScreenGui.Name = "GiveCoinsTester"
+ScreenGui.ResetOnSpawn = false
+ScreenGui.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
+ScreenGui.Parent = game:GetService("CoreGui")
+
+-- Main Frame
+local MainFrame = Instance.new("Frame")
+MainFrame.Name = "MainFrame"
+MainFrame.Size = UDim2.new(0, 280, 0, 180)
+MainFrame.Position = UDim2.new(0.5, -140, 0.5, -90)
+MainFrame.BackgroundColor3 = Color3.fromRGB(30, 30, 40)
+MainFrame.BorderSizePixel = 0
+MainFrame.Parent = ScreenGui
+
+local Corner = Instance.new("UICorner")
+Corner.CornerRadius = UDim.new(0, 10)
+Corner.Parent = MainFrame
+
+-- Title Bar
+local TitleBar = Instance.new("Frame")
+TitleBar.Name = "TitleBar"
+TitleBar.Size = UDim2.new(1, 0, 0, 35)
+TitleBar.BackgroundColor3 = Color3.fromRGB(45, 120, 200)
+TitleBar.BorderSizePixel = 0
+TitleBar.Parent = MainFrame
+
+local TitleCorner = Instance.new("UICorner")
+TitleCorner.CornerRadius = UDim.new(0, 10)
+TitleCorner.Parent = TitleBar
+
+local TitleFix = Instance.new("Frame")
+TitleFix.Size = UDim2.new(1, 0, 0, 15)
+TitleFix.Position = UDim2.new(0, 0, 1, -15)
+TitleFix.BackgroundColor3 = Color3.fromRGB(45, 120, 200)
+TitleFix.BorderSizePixel = 0
+TitleFix.Parent = TitleBar
+
+-- Title Text
+local TitleText = Instance.new("TextLabel")
+TitleText.Name = "Title"
+TitleText.Size = UDim2.new(1, -40, 1, 0)
+TitleText.Position = UDim2.new(0, 10, 0, 0)
+TitleText.BackgroundTransparency = 1
+TitleText.Text = "🐟 Fish Count - Coins Tester"
+TitleText.TextColor3 = Color3.fromRGB(255, 255, 255)
+TitleText.TextSize = 14
+TitleText.Font = Enum.Font.GothamBold
+TitleText.TextXAlignment = Enum.TextXAlignment.Left
+TitleText.Parent = TitleBar
+
+-- Close Button
+local CloseBtn = Instance.new("TextButton")
+CloseBtn.Name = "CloseBtn"
+CloseBtn.Size = UDim2.new(0, 25, 0, 25)
+CloseBtn.Position = UDim2.new(1, -30, 0, 5)
+CloseBtn.BackgroundColor3 = Color3.fromRGB(200, 60, 60)
+CloseBtn.Text = "X"
+CloseBtn.TextColor3 = Color3.fromRGB(255, 255, 255)
+CloseBtn.TextSize = 14
+CloseBtn.Font = Enum.Font.GothamBold
+CloseBtn.Parent = TitleBar
+
+local CloseBtnCorner = Instance.new("UICorner")
+CloseBtnCorner.CornerRadius = UDim.new(0, 5)
+CloseBtnCorner.Parent = CloseBtn
+
+-- Content Frame
+local Content = Instance.new("Frame")
+Content.Name = "Content"
+Content.Size = UDim2.new(1, -20, 1, -55)
+Content.Position = UDim2.new(0, 10, 0, 45)
+Content.BackgroundTransparency = 1
+Content.Parent = MainFrame
+
+-- Label
+local Label = Instance.new("TextLabel")
+Label.Size = UDim2.new(1, 0, 0, 20)
+Label.BackgroundTransparency = 1
+Label.Text = "Masukkan Jumlah Coins:"
+Label.TextColor3 = Color3.fromRGB(200, 200, 200)
+Label.TextSize = 13
+Label.Font = Enum.Font.Gotham
+Label.TextXAlignment = Enum.TextXAlignment.Left
+Label.Parent = Content
+
+-- TextBox untuk input jumlah
+local AmountBox = Instance.new("TextBox")
+AmountBox.Name = "AmountBox"
+AmountBox.Size = UDim2.new(1, 0, 0, 35)
+AmountBox.Position = UDim2.new(0, 0, 0, 25)
+AmountBox.BackgroundColor3 = Color3.fromRGB(50, 50, 60)
+AmountBox.Text = ""
+AmountBox.PlaceholderText = "Contoh: 1000"
+AmountBox.TextColor3 = Color3.fromRGB(255, 255, 255)
+AmountBox.PlaceholderColor3 = Color3.fromRGB(120, 120, 120)
+AmountBox.TextSize = 16
+AmountBox.Font = Enum.Font.Gotham
+AmountBox.ClearTextOnFocus = false
+AmountBox.Parent = Content
+
+local AmountBoxCorner = Instance.new("UICorner")
+AmountBoxCorner.CornerRadius = UDim.new(0, 8)
+AmountBoxCorner.Parent = AmountBox
+
+-- Enter Button
+local EnterBtn = Instance.new("TextButton")
+EnterBtn.Name = "EnterBtn"
+EnterBtn.Size = UDim2.new(1, 0, 0, 35)
+EnterBtn.Position = UDim2.new(0, 0, 0, 70)
+EnterBtn.BackgroundColor3 = Color3.fromRGB(50, 180, 80)
+EnterBtn.Text = "💰 GIVE COINS"
+EnterBtn.TextColor3 = Color3.fromRGB(255, 255, 255)
+EnterBtn.TextSize = 15
+EnterBtn.Font = Enum.Font.GothamBold
+EnterBtn.Parent = Content
+
+local EnterBtnCorner = Instance.new("UICorner")
+EnterBtnCorner.CornerRadius = UDim.new(0, 8)
+EnterBtnCorner.Parent = EnterBtn
+
+-- Status Label
+local StatusLabel = Instance.new("TextLabel")
+StatusLabel.Name = "Status"
+StatusLabel.Size = UDim2.new(1, 0, 0, 20)
+StatusLabel.Position = UDim2.new(0, 0, 0, 110)
+StatusLabel.BackgroundTransparency = 1
+StatusLabel.Text = "Status: Ready"
+StatusLabel.TextColor3 = Color3.fromRGB(150, 150, 150)
+StatusLabel.TextSize = 11
+StatusLabel.Font = Enum.Font.Gotham
+StatusLabel.Parent = Content
+
+-- Fungsi untuk update status
+local function updateStatus(text, color)
+    StatusLabel.Text = "Status: " .. text
+    StatusLabel.TextColor3 = color or Color3.fromRGB(150, 150, 150)
+end
+
+-- Fungsi untuk mencari RemoteEvent
+local function findRemote()
+    -- Cari di ReplicatedStorage
+    local remote = ReplicatedStorage:FindFirstChild("GiveCoins")
+    if remote then return remote end
+    
+    -- Cari recursive di ReplicatedStorage
+    for _, v in pairs(ReplicatedStorage:GetDescendants()) do
+        if v:IsA("RemoteEvent") and v.Name == "GiveCoins" then
+            return v
+        end
+    end
+    
+    -- Cari di workspace (jika ada)
+    for _, v in pairs(game:GetDescendants()) do
+        if v:IsA("RemoteEvent") and v.Name == "GiveCoins" then
+            return v
+        end
+    end
+    
+    return nil
+end
+
+-- Fungsi utama untuk fire remote
+local function fireGiveCoins()
+    local amount = tonumber(AmountBox.Text)
+    
+    if not amount then
+        updateStatus("Masukkan angka yang valid!", Color3.fromRGB(255, 100, 100))
+        return
+    end
+    
+    if amount <= 0 then
+        updateStatus("Jumlah harus lebih dari 0!", Color3.fromRGB(255, 100, 100))
+        return
+    end
+    
+    local remote = findRemote()
+    
+    if not remote then
+        updateStatus("RemoteEvent 'GiveCoins' tidak ditemukan!", Color3.fromRGB(255, 100, 100))
+        return
+    end
+    
+    -- Fire remote dengan berbagai format argument
+    -- Sesuaikan dengan format yang Anda gunakan di server
+    
+    updateStatus("Mengirim request...", Color3.fromRGB(255, 200, 100))
+    
+    -- Coba berbagai format
+    pcall(function()
+        remote:FireServer(amount) -- Format 1: hanya amount
+    end)
+    
+    pcall(function()
+        remote:FireServer("Coins", amount) -- Format 2: currency type + amount
+    end)
+    
+    pcall(function()
+        remote:FireServer({Amount = amount}) -- Format 3: table
+    end)
+    
+    updateStatus("Request terkirim! Amount: " .. tostring(amount), Color3.fromRGB(100, 255, 100))
+    
+    -- Log ke console
+    print("=====================================")
+    print("[GiveCoins Tester] Remote fired!")
+    print("Remote Path:", remote:GetFullName())
+    print("Amount:", amount)
+    print("=====================================")
+end
+
+-- Event Handlers
+EnterBtn.MouseButton1Click:Connect(fireGiveCoins)
+
+AmountBox.FocusLost:Connect(function(enterPressed)
+    if enterPressed then
+        fireGiveCoins()
+    end
+end)
+
+CloseBtn.MouseButton1Click:Connect(function()
+    ScreenGui:Destroy()
+end)
+
+-- Hover effects
+EnterBtn.MouseEnter:Connect(function()
+    TweenService:Create(EnterBtn, TweenInfo.new(0.2), {
+        BackgroundColor3 = Color3.fromRGB(60, 200, 90)
+    }):Play()
+end)
+
+EnterBtn.MouseLeave:Connect(function()
+    TweenService:Create(EnterBtn, TweenInfo.new(0.2), {
+        BackgroundColor3 = Color3.fromRGB(50, 180, 80)
+    }):Play()
+end)
+
+CloseBtn.MouseEnter:Connect(function()
+    TweenService:Create(CloseBtn, TweenInfo.new(0.2), {
+        BackgroundColor3 = Color3.fromRGB(230, 70, 70)
+    }):Play()
+end)
+
+CloseBtn.MouseLeave:Connect(function()
+    TweenService:Create(CloseBtn, TweenInfo.new(0.2), {
+        BackgroundColor3 = Color3.fromRGB(200, 60, 60)
+    }):Play()
+end)
+
+-- Draggable
+local dragging, dragInput, dragStart, startPos
+
+TitleBar.InputBegan:Connect(function(input)
+    if input.UserInputType == Enum.UserInputType.MouseButton1 then
+        dragging = true
+        dragStart = input.Position
+        startPos = MainFrame.Position
+    end
+end)
+
+TitleBar.InputEnded:Connect(function(input)
+    if input.UserInputType == Enum.UserInputType.MouseButton1 then
+        dragging = false
+    end
+end)
+
+game:GetService("UserInputService").InputChanged:Connect(function(input)
+    if dragging and input.UserInputType == Enum.UserInputType.MouseMovement then
+        local delta = input.Position - dragStart
+        MainFrame.Position = UDim2.new(
+            startPos.X.Scale, startPos.X.Offset + delta.X,
+            startPos.Y.Scale, startPos.Y.Offset + delta.Y
+        )
+    end
+end)
+
+-- Startup message
+print("=====================================")
+print("🐟 Fish Count - GiveCoins Tester Loaded!")
+print("Dibuat untuk testing keamanan game")
+print("=====================================")
+
+updateStatus("Ready - Remote search active", Color3.fromRGB(100, 200, 255))
